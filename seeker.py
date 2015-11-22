@@ -3,6 +3,8 @@ import requests
 import re
 import ast
 import tkinter
+import operator
+from collections import OrderedDict
 import json
 from bs4 import BeautifulSoup
 import urllib
@@ -121,10 +123,15 @@ try:
     cost_list = list(ast.literal_eval(cost_dict).values())
     rarity_list = list(ast.literal_eval(rarity_dict).values())
 
-
-    print(job)
+    dic = dict()
     for i in range(0, len(cardname_list)):
-        print(str(cardname_list[i])+"  "+str(cost_list[i])+"코"+"  "+str(rarity[int(rarity_list[i])])+"카드")
+        st = cardname_list[i]+" "+rarity[rarity_list[i]]+"카드"
+        dic[str(st)] = cost_list[i]
+    dic = sorted(dic.items(), key=operator.itemgetter(1))
+    print(dic)
+    print(job)
+    for key, val in dic:
+        print(str(val)+"코"+"   "+str(key))
 
 
     '''
