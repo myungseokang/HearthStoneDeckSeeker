@@ -122,7 +122,6 @@ try:
     f = open("DeckSeeker.txt", "w")
     file_txt = ""
     file_txt += job+"\n"
-
     print(job)
     for key, val in dic:
         print('{0:3s} {1:10s}'.format(str(val)+"코", str(key)))
