@@ -44,10 +44,9 @@ payload = {
     }
 
 try:
-    r = requests.post(BASE_URL,headers=post_header,data=payload)
+    r = requests.post(BASE_URL, headers=post_header, data=payload)
     html_content = r.text.encode(r.encoding)
     html = BeautifulSoup(html_content, "html.parser")
-
     tr_list = list()
     tr_pattern = "<tr>.*?</tr>"
     r = re.compile(tr_pattern, re.DOTALL)
@@ -58,7 +57,7 @@ try:
     pos_pattern = '<span class="positive">[0-9]*</span>'
     t = re.compile(td_pattern, re.DOTALL)
     p = re.compile(pos_pattern, re.DOTALL)
-    
+
     for i in tr_list:
         se1 = t.search(i)
         se2 = p.search(i)
@@ -76,7 +75,7 @@ try:
         pos_list.append(int(i))
     sorted_pos = sorted(pos_list, reverse=True)
     want_idx = idx_list[str(sorted_pos[0])]
-    print(want_idx)
+    #print(want_idx)
 
     DECK_URL = "http://hs.inven.co.kr/dataninfo/deck/view.php?idx="+want_idx
 
@@ -116,15 +115,19 @@ try:
 
     dic = dict()
     for i in range(0, len(cardname_list)):
-        st = cardname_list[i]+" "+rarity[rarity_list[i]]+"카드"
+        st = cardname_list[i]#+" "+rarity[rarity_list[i]]+"카드"
         dic[str(st)] = cost_list[i]
     dic = sorted(dic.items(), key=operator.itemgetter(1))
 
+    f = open("DeckSeeker.txt", "w")
+    file_txt = ""
+    file_txt += job+"\n"
+
     print(job)
     for key, val in dic:
-        print(str(val)+"코"+"   "+str(key))
-
-
-
+        print('{0:3s} {1:10s}'.format(str(val)+"코", str(key)))
+        file_txt += '{0:3s} {1:10s}'.format(str(val)+"코", str(key))+"\n"
+    f.write(file_txt)
+    f.close()
 except:
     print("catch")
